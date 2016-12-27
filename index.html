@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+        <title>weather</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+            }
+            #result {
+                width: 200px;
+                height: 120px;
+                margin: 1em auto 0;
+                border: 1px solid;
+                text-align: center;
+                font-size: 3em;
+                background: khaki;
+            }
+            .city {
+                font-weight: bold;
+            }
+            .temp {
+                color: darkred;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="result"></div>
+        <script>
+        var res = document.getElementById('result');
+
+        (function() {
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "http://ip-api.com/json", true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState == 4) {
+                    if(xhr.status == 200) {
+                        var ip = JSON.parse(xhr.responseText);  // инфа об ip
+                        // console.log(ip); // объект ip
+                        // * example *     
+                        // ip.city:"Rostov"
+                        // ip.country:"Russia"
+                        // ip.countryCode:"RU"
+                        // ip.timezone:"Europe/Moscow"
+
+                        var city = ip.city;
+                        var key = "8bd745e8e2b082774cf4cd0c0c585d5a"; // http://api.openweathermap.org
+                            
+                            // api погоды =======================
+                            (function() {
+                              var xhr = new XMLHttpRequest();
+                              xhr.open("GET", "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&APPID=" + key, true);
+                              xhr.onreadystatechange = function() {
+                                  if (xhr.readyState == 4) {
+                                     if(xhr.status == 200) {
+                                        var weather = JSON.parse(xhr.responseText);  // инфа о погоде
+
+                                        // console.log(weather); // объект weather
+                                        // * example * 
+                                        // > main:Object
+                                        // weather.main.temp:-2.41
+                                        // weather.name:"Rostov"
+                                        // > sys:Object
+                                        // weather.sys.country:"RU"
+                                        // weather.sys.sunrise:1482818541
+                                        // weather.sys.sunset:1482842729
+                                        // > weather:Array[1]
+                                        // >> 0:Object
+                                        // weather.weather[0].description:"clear sky"
+                                        // weather.weather[0].main:"Clear"
+                                        // > wind:Object
+                                        // weather.wind.speed:4.91
+
+                                        res.innerHTML = '<p class="city">' + weather.name + '</p><p class="temp">' + parseInt(weather.main.temp) + '</p>';
+                                     } else {
+                                        alert('npm install node-static -> 127.0.0.1:8080'); 
+                                     }
+                                  }
+                                };
+                              xhr.send(null);
+                            })();
+                            // end ===============================
+                            
+                    } else {
+                        alert('npm install node-static -> 127.0.0.1:8080'); // обработчик ошибки с текстом ответа
+                    }
+               }
+            };
+        xhr.send(null);
+        })();
+        </script>
+    </body>
+</html>
