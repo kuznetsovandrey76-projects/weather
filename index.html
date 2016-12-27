@@ -33,8 +33,8 @@
         (function() {
             var XHR = ("onload" in new XMLHttpRequest()) ? XMLHttpRequest : XDomainRequest;
             var xhr = new XHR();
-//             var xhr = new XMLHttpRequest();
-            xhr.open("GET", "https://goo.gl/LTI6me", true);
+            // var xhr = new XMLHttpRequest(); // можно удалить первые две строки и сотавить это
+            xhr.open("GET", "https://goo.gl/LTI6me", true);  // http://ip-api.com/json
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4) {
                     if(xhr.status == 200) {
