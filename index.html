@@ -31,7 +31,9 @@
         var res = document.getElementById('result');
 
         (function() {
-            var xhr = new XMLHttpRequest();
+            var XHR = ("onload" in new XMLHttpRequest()) ? XMLHttpRequest : XDomainRequest;
+            var xhr = new XHR();
+//             var xhr = new XMLHttpRequest();
             xhr.open("GET", "https://goo.gl/LTI6me", true);
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4) {
