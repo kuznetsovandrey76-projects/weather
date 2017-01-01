@@ -2,30 +2,46 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+        <link href="https://fonts.googleapis.com/css?family=Josefin+Sans" rel="stylesheet">
         <title>weather</title>
         <style>
             * {
                 margin: 0;
                 padding: 0;
             }
+            body {
+                font-family: 'Josefin Sans', sans-serif;
+            }
+            h1 {
+            	text-align: center;
+                margin: .5em;
+            }
             #result {
-                width: 200px;
-                height: 120px;
-                margin: 1em auto 0;
+                width: 500px;
+                height: 300px;
+                margin: 0 auto;
                 border: 1px solid;
                 text-align: center;
-                font-size: 3em;
-                background: khaki;
-            }
+                background: lightblue;
+                position: relative;
+                -webkit-border-radius: 1em;
+                        border-radius: 1em;
+                }
             .city {
                 font-weight: bold;
+                margin-top: 1em;
+                font-size: 3em;                
             }
             .temp {
                 color: darkred;
+                padding: 10px;	
+                display: inline-block;  
+                font-size: 5em;                	
             }
         </style>
     </head>
     <body>
+    	<h1>Weather Right Now</h1>
         <div id="result"></div>
         <script>
         var res = document.getElementById('result');
@@ -45,6 +61,7 @@
                         // ip.timezone:"Europe/Moscow"
 
                         var city = ip.city;
+                        // var city = 'Murmansk';
                         var key = "8bd745e8e2b082774cf4cd0c0c585d5a"; // http://api.openweathermap.org
                             
                             // api погоды =======================
@@ -72,7 +89,18 @@
                                         // > wind:Object
                                         // weather.wind.speed:4.91
 
-                                        res.innerHTML = '<p class="city">' + weather.name + '</p><p class="temp">' + parseInt(weather.main.temp) + '</p>';
+                                        var weatherMain = weather.weather[0].main;
+                                        var description = {
+                                            'clear': 'images/clear.png',
+                                            'clouds': 'images/clouds.png',
+                                            'rain': 'images/rain.png',
+                                            'thunderstorm': 'images/thunderstorm.png',
+                                            'snow': 'simages/now.png',
+                                            'mist': 'images/mist.png',
+                                            'drizzle': 'images/drizzle.png'
+                                        }
+
+                                        res.innerHTML = '<p class="city">' + weather.name + '</p><p class="temp">' + parseInt(weather.main.temp) + '</p>' + '<img src="' + description[weatherMain.toLowerCase()] + '" /><p>' + weather.weather[0].description + '</p>';
                                      } else {
                                         alert('npm install node-static -> 127.0.0.1:8080'); 
                                      }
